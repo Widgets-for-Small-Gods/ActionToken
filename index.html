@@ -1,48 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toggle Image Button</title>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            background: transparent;
-        }
-    
-        .image-button {
-            width: 100px;
-            height: 100px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <button class="image-button" onclick="toggleImage()">
-        <img id="toggleImg" src="images/Action.png" width="100" height="100" />
-    </button>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Action Button Widget</title>
 
-    <script>
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        font-family: sans-serif;
+    }
+
+    /* Widget container */
+    .widget {
+        width: 500px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    /* Row holding action buttons */
+    .button-row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    /* Action buttons */
+    .image-button {
+        width: 100px;
+        height: 100px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    .image-button img {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Plus / Minus controls */
+    .controls {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-left: 10px;
+    }
+
+    .control-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="widget">
+
+    <!-- Action buttons container -->
+    <div class="button-row" id="buttonRow"></div>
+
+    <!-- + / − controls -->
+    <div class="controls">
+        <button class="control-btn" onclick="addButton()">+</button>
+        <button class="control-btn" onclick="removeButton()">−</button>
+    </div>
+
+</div>
+
+<script>
+    const maxButtons = 4;
+    let buttons = [];
+
+    function createButton(index) {
+        const button = document.createElement("button");
+        button.className = "image-button";
+
+        const img = document.createElement("img");
+        img.src = "images/Action.png";
+
         let toggleState = false;
 
-        // Ensure the initial image is loaded immediately
-        window.onload = function() {
-            const img = document.getElementById("toggleImg");
-            img.src = "images/Action.png"; // The default image that shows up
+        button.onclick = () => {
+            img.src = toggleState
+                ? "images/Action.png"
+                : "images/UsedAction.png";
+            toggleState = !toggleState;
         };
 
-        function toggleImage() {
-            const img = document.getElementById("toggleImg");
-            if (toggleState) {
-                img.src = "images/Action.png"; // First image
-            } else {
-                img.src = "images/UsedAction.png"; // Second image
-            }
-            toggleState = !toggleState;
-        }
-    </script>
+        button.appendChild(img);
+        return button;
+    }
+
+    function addButton() {
+        if (buttons.length >= maxButtons) return;
+
+        const row = document.getElementById("buttonRow");
+        const newButton = createButton(buttons.length);
+
+        buttons.push(newButton);
+        row.appendChild(newButton);
+    }
+
+    function removeButton() {
+        if (buttons.length === 0) return;
+
+        const row = document.getElementById("buttonRow");
+        const btn = buttons.pop();
+        row.removeChild(btn);
+    }
+
+    // Start with 1 button (like your original widget)
+    window.onload = () => addButton();
+</script>
+
 </body>
 </html>
