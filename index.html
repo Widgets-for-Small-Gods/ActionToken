@@ -19,7 +19,13 @@
         height: 100px;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+    }
+
+    /* Buttons + controls grouped together */
+    .button-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
     /* Action buttons row */
@@ -29,7 +35,7 @@
         align-items: center;
     }
 
-    /* Action buttons (unchanged size) */
+    /* Action buttons */
     .image-button {
         width: 100px;
         height: 100px;
@@ -44,27 +50,28 @@
         height: 100%;
     }
 
-    /* Controls container */
+    /* Controls stacked vertically */
     .controls {
         display: flex;
         flex-direction: column;
-        gap: 6px;
-        margin-left: 10px;
+        gap: 4px;
     }
 
-    /* Smaller control buttons */
+    /* Half-size control buttons */
     .control-btn {
-        width: 30px;
-        height: 30px;
-        font-size: 18px;
+        width: 15px;
+        height: 15px;
+        font-size: 10px;
         border: none;
-        border-radius: 6px;
+        border-radius: 3px;
         cursor: pointer;
         background: black;
         color: white;
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 0;
+        line-height: 1;
     }
 </style>
 </head>
@@ -73,14 +80,18 @@
 
 <div class="widget">
 
-    <!-- Action buttons -->
-    <div class="button-row" id="buttonRow"></div>
+    <div class="button-group">
 
-    <!-- + / − / Reset controls -->
-    <div class="controls">
-        <button class="control-btn" onclick="addButton()">+</button>
-        <button class="control-btn" onclick="removeButton()">−</button>
-        <button class="control-btn" onclick="resetButtons()">↺</button>
+        <!-- Action buttons -->
+        <div class="button-row" id="buttonRow"></div>
+
+        <!-- Controls always beside last button -->
+        <div class="controls">
+            <button class="control-btn" onclick="addButton()">+</button>
+            <button class="control-btn" onclick="removeButton()">−</button>
+            <button class="control-btn" onclick="resetButtons()">↺</button>
+        </div>
+
     </div>
 
 </div>
@@ -133,8 +144,11 @@
         });
     }
 
-    // Start with one button
-    window.onload = () => addButton();
+    /* Default = 2 buttons */
+    window.onload = () => {
+        addButton();
+        addButton();
+    };
 </script>
 
 </body>
